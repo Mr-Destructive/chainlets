@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block base %}
+<form method='post'>
+    {% csrf_token %}
+    <input name='prompt' id='prompt' placeholder='Prompt'>
+    <input name='words' id='words' type='number' 
+        placeholder='Number of Words' max='200' min='10'>
+    <input class="btn btn-outline-info" type='submit' id="submit">
+</form>
+{% endblock %}

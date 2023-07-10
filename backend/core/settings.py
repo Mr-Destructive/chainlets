@@ -1,8 +1,13 @@
 from pathlib import Path
+import environ
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-_mwg9gi#u%h6&bxs!jzpnk4wzid*^36ow%=yeg@v%_p5+xj2no"
+env = environ.Env()
+env.read_env(f"{BASE_DIR}/.env")
+
+SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
@@ -10,6 +15,7 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -17,8 +23,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "channels",
+    "compressor",
+
     "accounts",
-    "words",
+    "chains",
+    "chat",
 ]
 
 MIDDLEWARE = [
@@ -36,7 +46,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -50,6 +60,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "core.wsgi.application"
+ASGI_APPLICATION = "core.asgi.application"
 
 DATABASES = {
     "default": {
@@ -86,3 +97,18 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.User"
+
+LOGIN_REDIRECT_URL = "index"
+LOGIN_URL = "login"
+
+CHANNEL_LAYERS = {
+    'default': {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}
+
+COMPRESS_ROOT = BASE_DIR / 'static'
+COMPRESS_ENABLED = True
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+
+PALM_API_KEY = env("PALM_API_KEY")

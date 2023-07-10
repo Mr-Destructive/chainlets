@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block base %}
+    {% if user.is_authenticated %}
+    <h2>Hello, <b>{{ user.username }}</b></h2>
+    <div class="border-top pt-3">
+      <small class="text-muted">
+        <a href="{% url 'logout' %}">Log Out</a>
+      </small>
+    </div>
+    <a href="{% url 'prompt' %}">Prompt</a>
+    <a href="{% url 'chain' %}">Chain</a>
+    <a href="{% url 'room-create' %}">Create Room</a>
+    <a href="{% url 'room-join' %}">Join Room</a>
+    {% endif %}
+{% endblock base %}

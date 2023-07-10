@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block base %}
+
+<h3>{{ prompt }}</h3>
+<ul>
+    {% for word in words %}
+        <li>{{ word }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
